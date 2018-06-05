@@ -43,12 +43,14 @@ class User {
 
 class News {
 
-  constructor(name) {
+  constructor(name, obj) {
     this.name = name;
+    this.obj = obj;
   }
 
-  generateNews() {
-    return `${this.name} ${Math.random() * 100000000}`;
+  generateNews(theme) {
+    let news = `${this.name} ${Math.random() * 100000000}`;
+    this.obj.emit(theme, news);
   }
 
 }
@@ -60,18 +62,16 @@ const user1 = new User('Tom');
 const user2 = new User('Sam');
 const user3 = new User('Bob');
 
-const magazine = new News('About all');
+const magazine = new News('About all', emitter);
 
 emitter.subscribe('sport', user1.showNews);
 emitter.subscribe('sport', user2.showNews);
 emitter.subscribe('it', user3.showNews);
 
-emitter.emit('sport', magazine.generateNews());
-emitter.emit('it', magazine.generateNews());
+magazine.generateNews('sport');
+magazine.generateNews('sport');
+magazine.generateNews('it');
 
 
 emitter.unsubscribe('sport', user2.showNews);
-
-emitter.emit('sport', magazine.generateNews());
-emitter.emit('it', magazine.generateNews());
-
+emitter.unsubscribe('it', user3.showNews);
