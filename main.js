@@ -49,7 +49,7 @@ class News {
   }
 
   generateNews(theme) {
-    let news = `${this.name} ${Math.random() * 100000000}`;
+    let news = `${this.name} ${theme}`;
     this.obj.emit(theme, news);
   }
 
